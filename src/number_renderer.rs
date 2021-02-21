@@ -1,7 +1,7 @@
 use std::path::Path;
 use piston_window::*;
 use opengl_graphics::GlGraphics;
-use opengl_graphics::Texture as GlTexture;
+use opengl_graphics::{Texture as GlTexture, TextureSettings as GlTextureSettings};
 
 static DIGITS_WIDTH: f64 = 20.0;
 static DIGITS_HEIGHT: f64 = 26.0;
@@ -13,7 +13,7 @@ pub struct NumberRenderer {
 impl NumberRenderer {
     pub fn new() -> NumberRenderer {
         NumberRenderer {
-            image: GlTexture::from_path(Path::new("bin/assets/digits.png")).unwrap(),
+            image: GlTexture::from_path(Path::new("bin/assets/digits.png"), &GlTextureSettings::new()).unwrap(),
         }
     }
 

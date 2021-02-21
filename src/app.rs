@@ -2,7 +2,7 @@ use std::path::{ Path, PathBuf };
 
 use piston_window::*;
 use opengl_graphics::GlGraphics;
-use opengl_graphics::Texture as GlTexture;
+use opengl_graphics::{Texture as GlTexture, TextureSettings as GlTextureSettings};
 use board::Board;
 use number_renderer::NumberRenderer;
 use settings::Settings;
@@ -79,14 +79,17 @@ impl<'a> App<'a> {
         let mut comment2_path = asset_root.clone();
         comment2_path.push(Path::new("comment2.png"));
 
+        let texture_settings = GlTextureSettings::new();
+
         self.number_renderer = Some(NumberRenderer::new());
-        self.logo = Some(GlTexture::from_path(&logo_path).unwrap());
-        self.comment1 = Some(GlTexture::from_path(&comment1_path).unwrap());
-        self.comment2 = Some(GlTexture::from_path(&comment2_path).unwrap());
+        self.logo = Some(GlTexture::from_path(&logo_path, &texture_settings).unwrap());
+        self.comment1 = Some(GlTexture::from_path(&comment1_path, &texture_settings).unwrap());
+        self.comment2 = Some(GlTexture::from_path(&comment2_path, &texture_settings).unwrap());
     }
 
     pub fn render(&mut self, args: &RenderArgs, gl: &mut GlGraphics) {
-        let ref c = Context::new_abs(args.width as f64, args.height as f64);
+        let [width, height] = args.window_size;
+        let ref c = Context::new_abs(width as f64, height as f64);
 
         let w_bg_col = self.window_background_color;
         let ref nr = self.number_renderer;
